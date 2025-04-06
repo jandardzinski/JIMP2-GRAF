@@ -2,166 +2,154 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-// ==================== STRUKTURY =====================
-typedef struct Node {
-    int x;
-    int y;
-} *node_t, node_o;
+#define MAX_NODES 1000
 
+// ===== STRUKTURY DO LISTY SĄSIEDZTWA =====
 typedef struct AdjNode {
     int neighbor;
     struct AdjNode* next;
 } AdjNode;
 
-// ==================== LISTA SĄSIEDZTWA =====================
-AdjNode** build_adjacency_list(int** matrix, int n) {
+AdjNode** create_adjacency_list(int** matrix, int n) {
     AdjNode** list = malloc(n * sizeof(AdjNode*));
     for (int i = 0; i < n; i++) list[i] = NULL;
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
             if (matrix[i][j]) {
                 AdjNode* new_node = malloc(sizeof(AdjNode));
                 new_node->neighbor = j;
                 new_node->next = list[i];
                 list[i] = new_node;
             }
-        }
-    }
     return list;
 }
 
-// ==================== PODZIAŁ NA WOJEWÓDZTWA =====================
-void podziel_na_wojewodztwa(AdjNode** list, int liczba_miast, int liczba_woj, FILE* out) {
-    int* przypisanie = calloc(liczba_miast, sizeof(int));
-    int* rozmiary = calloc(liczba_woj, sizeof(int));
-    int cel_rozmiar = liczba_miast / liczba_woj;
-    bool* odwiedzony = calloc(liczba_miast, sizeof(bool));
-    int woj_id = 1;
+// ===== PODZIAŁ NA WOJEWÓDZTWA =====
+void dziel_na_wojewodztwa(AdjNode** list, int n, int x, FILE* out) {
+    int* assigned = calloc(n, sizeof(int));
+    int* sizes = calloc(x, sizeof(int));
+    int cel = n / x;
+    bool* visited = calloc(n, sizeof(bool));
+    int region = 1;
 
-    for (int start = 0; start < liczba_miast; start++) {
-        if (przypisanie[start] != 0) continue;
+    for (int i = 0; i < n && region <= x; i++) {
+        if (assigned[i]) continue;
 
-        int kolejka[1024], front = 0, tyl = 0;
-        kolejka[tyl++] = start;
-        odwiedzony[start] = true;
+        int queue[1024], front = 0, rear = 0;
+        queue[rear++] = i;
+        visited[i] = true;
 
-        while (front < tyl && woj_id <= liczba_woj) {
-            int v = kolejka[front++];
-            if (przypisanie[v] == 0 && rozmiary[woj_id - 1] < cel_rozmiar) {
-                przypisanie[v] = woj_id;
-                rozmiary[woj_id - 1]++;
+        while (front < rear && region <= x) {
+            int v = queue[front++];
+
+            if (!assigned[v] && sizes[region - 1] < cel) {
+                assigned[v] = region;
+                sizes[region - 1]++;
             }
 
-            AdjNode* sasiad = list[v];
-            while (sasiad) {
-                int u = sasiad->neighbor;
-                if (!odwiedzony[u]) {
-                    kolejka[tyl++] = u;
-                    odwiedzony[u] = true;
+            AdjNode* neighbor = list[v];
+            while (neighbor) {
+                if (!visited[neighbor->neighbor]) {
+                    queue[rear++] = neighbor->neighbor;
+                    visited[neighbor->neighbor] = true;
                 }
-                sasiad = sasiad->next;
+                neighbor = neighbor->next;
             }
 
-            if (rozmiary[woj_id - 1] >= cel_rozmiar) woj_id++;
+            if (sizes[region - 1] >= cel) region++;
         }
     }
 
-    fprintf(out, "\nPodział na województwa:\n");
-    for (int w = 1; w <= liczba_woj; w++) {
+    fprintf(out, "\nPodział na %d województw:\n", x);
+    for (int w = 1; w <= x; w++) {
         fprintf(out, "Województwo %d: ", w);
-        for (int i = 0; i < liczba_miast; i++) {
-            if (przypisanie[i] == w) {
-                fprintf(out, "%d ", i);
-            }
-        }
+        for (int i = 0; i < n; i++)
+            if (assigned[i] == w) fprintf(out, "%d ", i);
         fprintf(out, "\n");
     }
 
-    free(przypisanie);
-    free(rozmiary);
-    free(odwiedzony);
+    free(assigned);
+    free(sizes);
+    free(visited);
 }
 
-// ==================== GŁÓWNA FUNKCJA =====================
-void create_graph() {
-    FILE *in = fopen("graf.csrrg", "r");
-    FILE *out = fopen("wynik.txt", "w");
-    if (in == NULL) {
-        printf("Błąd podczas wczytywania pliku.\n");
+// ===== GŁÓWNA FUNKCJA ODCZYTU I PODZIAŁU =====
+void przetwarzaj_plik(const char* nazwa) {
+    FILE* in = fopen(nazwa, "r");
+    FILE* out = fopen("wynik.txt", "w");
+    if (!in) {
+        printf("Błąd wczytywania %s\n", nazwa);
         return;
     }
 
-    int max_number;
-    fscanf(in, "%d", &max_number);
-    int number_of_nodes = 0;
+    int max_nodes;
+    fscanf(in, "%d", &max_nodes);
+
+    int nodes[MAX_NODES], node_count = 0;
     char c = '_';
-    int buf[8192];
-    while (c != '\n' && fscanf(in, "%d%c", &buf[number_of_nodes], &c) == 2) {
-        number_of_nodes++;
-    }
+    while (c != '\n' && fscanf(in, "%d%c", &nodes[node_count], &c) == 2)
+        node_count++;
 
-    node_t *new_graph = malloc(number_of_nodes * sizeof(node_t));
-    int first, second;
-    fscanf(in, "%d%c%d%c", &first, &c, &second, &c);
+    int index_pointers[MAX_NODES], pointer_count = 0;
+    c = '_';
+    while (c != '\n' && fscanf(in, "%d%c", &index_pointers[pointer_count], &c) == 2)
+        pointer_count++;
 
-    int **matrix = malloc(number_of_nodes * sizeof(int*));
-    for (int i = 0; i < number_of_nodes; i++) {
-        matrix[i] = calloc(number_of_nodes, sizeof(int));
-    }
+    int** matrix = malloc(node_count * sizeof(int*));
+    for (int i = 0; i < node_count; i++)
+        matrix[i] = calloc(node_count, sizeof(int));
 
-    for (int i = first + 1; i < second; i++) {
-        int start = buf[first];
-        int end = buf[i];
-        matrix[start][end] = 1;
-        matrix[end][start] = 1;
-        fprintf(out, "Krawędź: %d - %d\n", start, end);
-    }
+    int edge_groups[MAX_NODES][MAX_NODES];
+    int group_sizes[MAX_NODES];
+    int edge_ptrs[MAX_NODES];
+    int edge_total = 0, group_index = 0;
 
-    first = second;
-    while (fscanf(in, "%d%c", &second, &c) != EOF) {
-        int start = buf[first];
-        for (int i = first + 1; i < second; i++) {
-            int end = buf[i];
-            matrix[start][end] = 1;
-            matrix[end][start] = 1;
-            fprintf(out, "Krawędź: %d - %d\n", start, end);
+    while (!feof(in)) {
+        int line[MAX_NODES], count = 0;
+        c = '_';
+        while (fscanf(in, "%d%c", &line[count], &c) == 2 && c != '\n')
+            count++;
+
+        if (count == 0) break;
+
+        for (int i = 0; i < count - 1; i++) {
+            int a = line[0], b = line[i + 1];
+            matrix[a][b] = 1;
+            matrix[b][a] = 1;
+            fprintf(out, "Krawędź: %d - %d\n", a, b);
         }
-        first = second;
+        group_sizes[group_index] = count;
+        for (int i = 0; i < count; i++)
+            edge_groups[group_index][i] = line[i];
+        group_index++;
+        edge_total += count;
     }
 
-    int start = buf[first];
-    for (int i = first + 1; i < number_of_nodes; i++) {
-        int end = buf[i];
-        matrix[start][end] = 1;
-        matrix[end][start] = 1;
-        fprintf(out, "Krawędź: %d - %d\n", start, end);
-    }
+    // Lista sąsiedztwa
+    AdjNode** adj = create_adjacency_list(matrix, node_count);
 
-    // ======================= LISTA I PODZIAŁ =======================
-    AdjNode** lista = build_adjacency_list(matrix, number_of_nodes);
-    int liczba_wojewodztw = 3; // Możesz zmienić na dowolną wartość
-    podziel_na_wojewodztwa(lista, number_of_nodes, liczba_wojewodztw, out);
+    // Podział na województwa
+    dziel_na_wojewodztwa(adj, node_count, 3, out);  // <- tu ustaw liczbę województw
 
-    // ======================= CZYSZCZENIE ===========================
-    for (int i = 0; i < number_of_nodes; i++) {
-        AdjNode* curr = lista[i];
-        while (curr) {
-            AdjNode* tmp = curr;
-            curr = curr->next;
-            free(tmp);
+    // Czyszczenie
+    for (int i = 0; i < node_count; i++) {
+        AdjNode* p = adj[i];
+        while (p) {
+            AdjNode* next = p->next;
+            free(p);
+            p = next;
         }
         free(matrix[i]);
     }
-    free(lista);
     free(matrix);
-    free(new_graph);
+    free(adj);
     fclose(in);
     fclose(out);
 }
 
-// ==================== MAIN =====================
+// ===== MAIN =====
 int main() {
-    create_graph();
+    przetwarzaj_plik("graf.csrrg");
     return 0;
 }
