@@ -1,0 +1,171 @@
+[ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+[ 0 0 0 1 0 1 1 0 0 1 1 0 0 1 1 1 0 0 ]
+[ 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 1 0 0 ]
+[ 0 0 0 0 1 1 0 1 1 1 0 0 1 0 1 0 0 0 ]
+[ 0 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 0 0 ]
+[ 0 1 1 1 0 0 0 1 0 1 0 0 0 1 0 1 1 0 ]
+[ 0 1 0 1 0 1 0 0 0 0 1 1 1 0 0 0 0 0 ]
+[ 1 0 1 1 0 0 0 1 0 1 0 0 0 1 0 0 0 0 ]
+[ 0 1 0 0 0 1 1 0 1 0 1 1 1 1 0 1 1 0 ]
+[ 1 1 0 0 1 1 0 1 1 1 0 1 1 1 0 0 0 0 ]
+[ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+[ 1 0 1 1 0 1 1 0 0 0 1 1 1 0 0 1 0 0 ]
+[ 0 0 1 0 0 0 1 0 0 0 0 1 0 1 1 0 1 0 ]
+[ 0 0 1 1 0 1 1 0 0 1 0 0 1 1 1 0 0 0 ]
+[ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+[ 0 0 0 1 0 1 0 0 0 1 0 0 1 0 0 0 0 0 ]
+[ 1 0 1 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 ]
+[ 0 0 1 1 0 0 0 1 0 0 1 1 1 0 1 0 0 0 ]
+Lista sasiedztwa dla partycji 0:
+Krawedz 0 - 91
+Krawedz 2 - 79
+Krawedz 19 - 91
+Krawedz 25 - 91
+Krawedz 26 - 62
+Krawedz 26 - 80
+Krawedz 34 - 98
+Krawedz 38 - 43
+Krawedz 38 - 88
+Krawedz 38 - 97
+Krawedz 43 - 38
+Krawedz 62 - 26
+Krawedz 68 - 80
+Krawedz 79 - 2
+Krawedz 80 - 26
+Krawedz 80 - 68
+Krawedz 83 - 98
+Krawedz 88 - 38
+Krawedz 91 - 0
+Krawedz 91 - 19
+Krawedz 91 - 25
+Krawedz 97 - 38
+Krawedz 98 - 34
+Krawedz 98 - 83
+Lista sasiedztwa dla partycji 1:
+Krawedz 1 - 4
+Krawedz 1 - 101
+Krawedz 4 - 1
+Krawedz 5 - 49
+Krawedz 27 - 42
+Krawedz 29 - 51
+Krawedz 33 - 55
+Krawedz 40 - 64
+Krawedz 42 - 27
+Krawedz 42 - 44
+Krawedz 42 - 46
+Krawedz 42 - 48
+Krawedz 44 - 42
+Krawedz 46 - 42
+Krawedz 46 - 52
+Krawedz 46 - 55
+Krawedz 46 - 81
+Krawedz 48 - 42
+Krawedz 49 - 5
+Krawedz 51 - 29
+Krawedz 52 - 46
+Krawedz 55 - 33
+Krawedz 55 - 46
+Krawedz 59 - 96
+Krawedz 64 - 40
+Krawedz 81 - 46
+Krawedz 93 - 101
+Krawedz 96 - 59
+Krawedz 101 - 1
+Krawedz 101 - 93
+Lista sasiedztwa dla partycji 2:
+Krawedz 7 - 50
+Krawedz 7 - 75
+Krawedz 10 - 57
+Krawedz 12 - 50
+Krawedz 13 - 18
+Krawedz 18 - 13
+Krawedz 18 - 70
+Krawedz 36 - 100
+Krawedz 50 - 7
+Krawedz 50 - 12
+Krawedz 57 - 10
+Krawedz 65 - 78
+Krawedz 70 - 18
+Krawedz 70 - 92
+Krawedz 75 - 7
+Krawedz 76 - 78
+Krawedz 77 - 86
+Krawedz 78 - 65
+Krawedz 78 - 76
+Krawedz 78 - 86
+Krawedz 86 - 77
+Krawedz 86 - 78
+Krawedz 92 - 70
+Krawedz 100 - 36
+Lista sasiedztwa dla partycji 3:
+Krawedz 6 - 16
+Krawedz 9 - 14
+Krawedz 9 - 28
+Krawedz 11 - 47
+Krawedz 14 - 9
+Krawedz 14 - 63
+Krawedz 16 - 6
+Krawedz 17 - 104
+Krawedz 23 - 58
+Krawedz 23 - 63
+Krawedz 24 - 47
+Krawedz 28 - 9
+Krawedz 30 - 95
+Krawedz 31 - 94
+Krawedz 35 - 63
+Krawedz 37 - 61
+Krawedz 37 - 99
+Krawedz 39 - 45
+Krawedz 45 - 39
+Krawedz 47 - 11
+Krawedz 47 - 24
+Krawedz 54 - 74
+Krawedz 58 - 23
+Krawedz 61 - 37
+Krawedz 63 - 14
+Krawedz 63 - 23
+Krawedz 63 - 35
+Krawedz 63 - 66
+Krawedz 66 - 63
+Krawedz 74 - 54
+Krawedz 85 - 95
+Krawedz 85 - 102
+Krawedz 87 - 95
+Krawedz 94 - 31
+Krawedz 95 - 30
+Krawedz 95 - 85
+Krawedz 95 - 87
+Krawedz 99 - 37
+Krawedz 102 - 85
+Krawedz 104 - 17
+Lista sasiedztwa dla partycji 4:
+Krawedz 3 - 71
+Krawedz 8 - 60
+Krawedz 15 - 82
+Krawedz 20 - 67
+Krawedz 20 - 103
+Krawedz 21 - 69
+Krawedz 21 - 89
+Krawedz 22 - 89
+Krawedz 32 - 84
+Krawedz 41 - 72
+Krawedz 53 - 60
+Krawedz 56 - 71
+Krawedz 60 - 8
+Krawedz 60 - 53
+Krawedz 60 - 90
+Krawedz 67 - 20
+Krawedz 69 - 21
+Krawedz 69 - 89
+Krawedz 71 - 3
+Krawedz 71 - 56
+Krawedz 72 - 41
+Krawedz 73 - 84
+Krawedz 82 - 15
+Krawedz 84 - 32
+Krawedz 84 - 73
+Krawedz 89 - 21
+Krawedz 89 - 22
+Krawedz 89 - 69
+Krawedz 90 - 60
+Krawedz 103 - 20

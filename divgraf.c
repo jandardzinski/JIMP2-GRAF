@@ -275,11 +275,11 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 
 }
 
-void partition_list(int **matrix, int k, int n, int *partition)
+void partition_list(int **matrix, int k, int n, int *partition, FILE *out)
 {
 	for(int i = 0; i < k; i++)
 	{
-		printf("Lista sasiedztwa dla partycji %d:\n", i);
+		fprintf(out, "Lista sasiedztwa dla partycji %d:\n", i);
 		for(int j = 0; j < n; j++)
 		{
 			if(partition[j] == i)
@@ -288,10 +288,39 @@ void partition_list(int **matrix, int k, int n, int *partition)
 				{
 					if(matrix[j][x] == 1 && partition[x] == i)
 					{
-						printf("Krawedz %d - %d\n", j, x);
+						fprintf(out, "Krawedz %d - %d\n", j, x);
 					}
 				}
 			}
 		}
 	}
 }
+
+void print_matrix(node_t * graph, FILE *out, int number_of_nodes, int max_number)
+{
+	int **matrix = malloc(max_number * sizeof(int*));
+		for(int i = 0; i < max_number; i++)
+		{
+			matrix[i] = calloc(max_number, sizeof(int));
+		}
+	for(int i = 0; i < number_of_nodes; i++)
+	{
+		matrix[graph[i]->x][graph[i]->y] = 1;
+	}
+
+	for(int i = 0; i < max_number; i++)
+	{
+		fprintf(out, "[ ");
+		for(int j = 0; j < max_number; j++)
+		{
+			fprintf(out, "%d ", matrix[i][j]);
+		}
+		fprintf(out, "]\n");
+	}
+	for(int i = 0; i < max_number; i++)
+	{
+		free(matrix[i]);
+	}
+	free(matrix);
+}
+
