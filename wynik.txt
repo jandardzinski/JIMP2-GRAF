@@ -190,5 +190,5 @@ Krawedz 83 - 98
 Krawedz 85 - 95
 Krawedz 85 - 102
 Krawedz 87 - 95
-Krawedz: 93 - 101
-Krawedz: 93 - 94
+Krawedz 93 - 101
+Krawedz 93 - 94

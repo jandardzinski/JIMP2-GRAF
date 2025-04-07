@@ -5,35 +5,28 @@
 #include <stdbool.h>
 #include "graf.h"
 
-/*
-typedef struct Node
+
+node_t * create_graph(FILE *in, FILE *out, int *ptr_number_of_nodes)
 {
-	int x;
-	int y;
-        //int* edges;
-	//int edge_counter;
-        //struct Node* next;
-} *node_t, node_o;*/
-node_t * create_graph()
-{
-        FILE *in = fopen("graf.csrrg", "r");
-	FILE *out = fopen("wynik.txt", "w");
+	//FILE *out = fopen("wynik.txt", "w");
         if(in == NULL)
         {
                 printf("Blad podczas wczytywania pliku.\n");
         }
         int max_number;
         fscanf(in, "%d", &max_number);
-        printf("Maksymalna liczba wierzcholkow w wierszu wynosi: %d\n", max_number);
+        //printf("Maksymalna liczba wierzcholkow w wierszu wynosi: %d\n", max_number);
         int number_of_nodes = 0;
         char c = '_';
-	int buf[8192];
+	int buf[12560];
         while(c != '\n' && fscanf(in, "%d%c", &buf[number_of_nodes], &c) == 2)
         { 
                 number_of_nodes++;	
         }
-        printf("Liczba wierzcholkow w grafie wynosi: %d\n", number_of_nodes);
-		
+        //printf("Liczba wierzcholkow w grafie wynosi: %d\n", number_of_nodes);
+	
+	*ptr_number_of_nodes = number_of_nodes;
+
 	node_t *new_graph = malloc(number_of_nodes * sizeof(node_t));
 	int first;
 	int second;
@@ -82,13 +75,23 @@ node_t * create_graph()
 		free(new_matrix[i]);
 	
 	free(new_matrix);
-
+	/*
 	for(int i = 0; i < number_of_nodes; i++)
 	{
 		//printf("%dx%d\n", new_graph[i]->x , new_graph[i]->y);
 	}
+	*/
+	return new_graph;
+}
 
+int **create_matrix(FILE *in, FILE *out, int number_of_nodes)
+{
 	int **matrix = malloc(number_of_nodes * sizeof(int*));
+	
+	char c = '_';
+	int buf[10000];
+	int first, second;
+	
 	for(int i = 0; i < number_of_nodes; i++)
 	{
 		matrix[i] = calloc(number_of_nodes, sizeof(int));
@@ -130,74 +133,24 @@ node_t * create_graph()
     		int end = buf[i];
     		matrix[start][end] = 1;
     		matrix[end][start] = 1;
-    		fprintf(out, "Krawedz: %d - %d\n", start, end);
+    		fprintf(out, "Krawedz %d - %d\n", start, end);
 	}
-	/*
-	int def = 0;
-	int counter_y = 0;
-	fscanf(in, "%d%c%d%c", &first, &c, &second, &c);	
-	for(int i = first + 1; i < second; i++)
-	{
-		new_graph[buf[first]]->edges = malloc((second - first - 1) *sizeof(int));
-		new_graph[buf[first]]->edges[counter_y] = buf[i];
-		printf("Krawedzie wierzcholka %d: %d\n", buf[first], new_graph[buf[first]]->edges[counter_y]);
-		counter_y++;
-	}
-	c = '_';
-	first = second;
-	counter_y = 0;
-	while(fscanf(in, "%d%c", &second, &c) != EOF)	
-	{
-			int nr_node = buf[first];
-			def = second - first - 1;
-			new_graph[nr_node]->edges = malloc(def * sizeof(int));
-			for(int i = first + 1; i < second; i++)
-			{
-				new_graph[nr_node]->edges[counter_y] = buf[i];
-	       			printf("Krawedzie[%d] : %d\n", nr_node, new_graph[nr_node]->edges[counter_y]);
-				counter_y++;
-			}
-		counter_y = 0;
-		first = second;		
-	}
-		int nr_node = buf[first];
-                def = counter - first - 1;
-                new_graph[nr_node]->edges = malloc(def * sizeof(int));
-                for(int i = first + 1; i < counter; i++)
-                {
-                	new_graph[nr_node]->edges[counter_y] = buf[i];
-                        printf("Krawedzie[%d] : %d\n", nr_node, new_graph[nr_node]->edges[counter_y]);
-                        counter_y++;
-		}*/
-	int *partition = malloc(number_of_nodes * sizeof(int));
-        for (int i = 0; i < number_of_nodes; i++)
-        {
-                partition[i] = -1;
-        }
-        int k;
-        printf("Podaj na ile czesci chcesz podzielic graf:\n");
-        scanf("%d", &k);
-        bfs_partition(matrix, number_of_nodes, k, partition);
 
-	//calculate_weights(new_graph, number_of_nodes, max_number, matrix);
 	fclose(in);
+
+	return matrix;
 }
 
-int main()
+/*int ** get_matrix(int number_of_nodes)
 {
-	
-	create_graph();
-	/*int *partition = malloc(number_of_nodes * sizeof(int));  
-	for (int i = 0; i < number_of_nodes; i++) 
-	{
-        	partition[i] = -1;
-	}
-	int k;
-	printf("Podaj na ile czesci chcesz podzielic graf:\n");
-	scanf("%d", &k);
-	bfs_partition(matrix, number_of_nodes, k, partition);	
-	*/
-	return 0;
-}
+	int **matrix = malloc(number_of_nodes * sizeof(int*));
+        for(int i = 0; i < number_of_nodes; i++)
+        {
+                matrix[i] = calloc(number_of_nodes, sizeof(int));
+        }
+
+
+	return matrix;
+}*/
 
 
