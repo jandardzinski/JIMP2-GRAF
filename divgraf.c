@@ -89,20 +89,34 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 		{
 			int current_node; 
 			current_node = queue[start++];
-			partition[current_node] = current_partition;
-			partition_counter[current_partition]++;
-			
-			if(partition_counter[current_partition] >= max_size)
+			// Znajdź najmniejszą możliwą partycję, która jeszcze ma miejsce
+			int min_index = -1;
+			int min_count = max_size + 1;
+			for(int p = 0; p < k; p++)
 			{
-				//printf("Partycja %d ma %d wierzcholkow.\n", current_partition, partition_counter);
-				current_partition++;
-				//partition_counter = 0;
-				if(current_partition >= k)
+				if(partition_counter[p] < max_size && partition_counter[p] < min_count)
 				{
-					current_partition = k - 1; 
+					min_index = p;
+					min_count = partition_counter[p];
+				}
+			}
+			
+			// Jeśli wszystkie pełne, to daj do najmniejszej
+			if(min_index == -1)
+			{
+				min_index = 0;
+				for(int p = 1; p < k; p++)
+				{
+					if(partition_counter[p] < partition_counter[min_index])
+					{
+						min_index = p;
+					}
 				}
 			}
 
+			partition[current_node] = min_index;
+			partition_counter[min_index]++;
+			
 			for(int j = 0; j < n; j++)
 			{
 				if(matrix[current_node][j] && !visited[j])
