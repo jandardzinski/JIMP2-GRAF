@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include "graf.h"
 
+/*
 typedef struct Node
 {
 	int x;
@@ -11,7 +13,7 @@ typedef struct Node
         //int* edges;
 	//int edge_counter;
         //struct Node* next;
-} *node_t, node_o;
+} *node_t, node_o;*/
 node_t * create_graph()
 {
         FILE *in = fopen("graf.csrrg", "r");
@@ -167,6 +169,17 @@ node_t * create_graph()
                         printf("Krawedzie[%d] : %d\n", nr_node, new_graph[nr_node]->edges[counter_y]);
                         counter_y++;
 		}*/
+	int *partition = malloc(number_of_nodes * sizeof(int));
+        for (int i = 0; i < number_of_nodes; i++)
+        {
+                partition[i] = -1;
+        }
+        int k;
+        printf("Podaj na ile czesci chcesz podzielic graf:\n");
+        scanf("%d", &k);
+        bfs_partition(matrix, number_of_nodes, k, partition);
+
+	//calculate_weights(new_graph, number_of_nodes, max_number, matrix);
 	fclose(in);
 }
 
@@ -174,6 +187,16 @@ int main()
 {
 	
 	create_graph();
+	/*int *partition = malloc(number_of_nodes * sizeof(int));  
+	for (int i = 0; i < number_of_nodes; i++) 
+	{
+        	partition[i] = -1;
+	}
+	int k;
+	printf("Podaj na ile czesci chcesz podzielic graf:\n");
+	scanf("%d", &k);
+	bfs_partition(matrix, number_of_nodes, k, partition);	
+	*/
 	return 0;
 }
 

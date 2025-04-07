@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include "graf.h"
 #define MAX_NODES 1000
 
 // ===== STRUKTURY DO LISTY SĄSIEDZTWA =====
