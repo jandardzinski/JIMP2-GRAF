@@ -89,12 +89,7 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 		{
 			int current_node; 
 			current_node = queue[start++];
-			// Znajdź najmniejszą możliwą partycję, która jeszcze ma miejsce
-			
-			int min_index = -1;
-			int min_count = max_size + 1;
-			for(int p = 0; p < k; p++)
-			
+			/*
 			partition[current_node] = current_partition;
 			partition_counter[current_partition]++;
 			
@@ -119,6 +114,33 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 					}
 				}
 			}
+			*/
+			int min_index = -1;
+			int min_count = max_size + 1;
+			for(int p = 0; p < k; p++)
+			{
+				if(partition_counter[p] < max_size && partition_counter[p] < min_count)
+				{
+					min_index = p;
+					min_count = partition_counter[p];
+				}
+			}
+
+			// Jeśli wszystkie pełne, to daj do najmniejszej
+			if(min_index == -1)
+			{
+				min_index = 0;
+				for(int p = 0; p < k; p++)
+				{
+					if(partition_counter[p] < partition_counter[min_index])
+					{
+						min_index = p;
+					}
+				}
+			}
+
+			partition[current_node] = min_index;
+			partition_counter[min_index]++;
 
 			partition[current_node] = min_index;
 			partition_counter[min_index]++;
@@ -267,11 +289,11 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 
 }
 
-void partition_list(int **matrix, int k, int n, int *partition)
+void partition_list(int **matrix, int k, int n, int *partition, FILE *out)
 {
 	for(int i = 0; i < k; i++)
 	{
-		printf("Lista sasiedztwa dla partycji %d:\n", i);
+		fprintf(out, "Lista sasiedztwa dla partycji %d:\n", i);
 		for(int j = 0; j < n; j++)
 		{
 			if(partition[j] == i)
@@ -280,7 +302,7 @@ void partition_list(int **matrix, int k, int n, int *partition)
 				{
 					if(matrix[j][x] == 1 && partition[x] == i)
 					{
-						printf("Krawedz %d - %d\n", j, x);
+						fprintf(out, "Krawedz %d - %d\n", j, x);
 					}
 				}
 			}
@@ -288,10 +310,31 @@ void partition_list(int **matrix, int k, int n, int *partition)
 	}
 }
 
-void print_matrix(node_t * graph, int number_of_nodes, FILE *wynik)
+void print_matrix(node_t * graph, FILE *out, int number_of_nodes, int max_number)
 {
+	int **matrix = malloc(max_number * sizeof(int*));
+		for(int i = 0; i < max_number; i++)
+		{
+			matrix[i] = calloc(max_number, sizeof(int));
+		}
 	for(int i = 0; i < number_of_nodes; i++)
 	{
-
+		matrix[graph[i]->x][graph[i]->y] = 1;
 	}
+
+	for(int i = 0; i < max_number; i++)
+	{
+		fprintf(out, "[ ");
+		for(int j = 0; j < max_number; j++)
+		{
+			fprintf(out, "%d ", matrix[i][j]);
+		}
+		fprintf(out, "]\n");
+	}
+	for(int i = 0; i < max_number; i++)
+	{
+		free(matrix[i]);
+	}
+	free(matrix);
 }
+
