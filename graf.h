@@ -9,11 +9,15 @@ typedef struct Node
         int y;
 	int part;
         //int* edges;
-        int weight;
+        //int weight;
         //struct Node* next;
 } *node_t, node_o;
 
-node_t * create_graph();
+node_t * create_graph(FILE *in, FILE *out, int *ptr_number_of_nodes);
+int **create_matrix(FILE *in, FILE *out, int number_of_nodes);
 //void partition(node_t *graph, int number_of_nodes, int *k_value);
 //void calculate_weights(node_t * graph, int number_of_nodes, int max_number, int **matrix);
 void bfs_partition(int **matrix, int n, int k, int* partition);
+void partition_list(int **matrix, int k, int n, int *partition);
+
+

@@ -29,7 +29,7 @@ void partition(node_t *graph, int number_of_nodes, int *k_value)
 	printf("Liczba krawedzi do usuniecia wynosi: %d\n", deleted_edges);
 }
 */
-
+/*
 void calculate_weights(node_t * graph, int number_of_nodes, int max_number, int **matrix)
 {
 	int weight_counter = 0;
@@ -52,7 +52,7 @@ void calculate_weights(node_t * graph, int number_of_nodes, int max_number, int 
 	}
 	printf("%d\n", number_of_nodes);
 	printf("Liczba >= 4 %d\n", weight_counter);
-}
+}*/
 
 void bfs_partition(int **matrix, int n, int k, int* partition)
 {
@@ -89,6 +89,7 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 		{
 			int current_node; 
 			current_node = queue[start++];
+			/*
 			partition[current_node] = current_partition;
 			partition_counter[current_partition]++;
 			
@@ -102,6 +103,33 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 					current_partition = k - 1; 
 				}
 			}
+			*/
+			int min_index = -1;
+			int min_count = max_size + 1;
+			for(int p = 0; p < k; p++)
+			{
+				if(partition_counter[p] < max_size && partition_counter[p] < min_count)
+				{
+					min_index = p;
+					min_count = partition_counter[p];
+				}
+			}
+
+			// Jeśli wszystkie pełne, to daj do najmniejszej
+			if(min_index == -1)
+			{
+				min_index = 0;
+				for(int p = 0; p < k; p++)
+				{
+					if(partition_counter[p] < partition_counter[min_index])
+					{
+						min_index = p;
+					}
+				}
+			}
+
+			partition[current_node] = min_index;
+			partition_counter[min_index]++;
 
 			for(int j = 0; j < n; j++)
 			{
@@ -114,14 +142,14 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 		}
 	}
 	free(visited);
-
+	/*
 	for (int i = 0; i < n; i++) 
 	{
         	printf( "Wierzcholek %d -> Partycja %d\n", i, partition[i]);
     	}
-	
+	*/	
 	int deleted_counter = 0;	
-	printf("Usuniete krawedzie miedzy partycjami:\n");
+	//printf("Usuniete krawedzie miedzy partycjami:\n");
 	for( int i = 0; i < n; i++)
 	{
 		for(int j = i + 1; j < n; j++)
@@ -231,7 +259,7 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 					
 				else
 				{
-					printf("Usuwam krawedz: %d - %d\n", i, j);
+					//printf("Usuwam krawedz: %d - %d\n", i, j);
                                 	deleted_counter++;
 				}
 
@@ -245,4 +273,25 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 		printf("Partycja %d, %dwierzcholkow\n", i, partition_counter[i]);
 	}
 
+}
+
+void partition_list(int **matrix, int k, int n, int *partition)
+{
+	for(int i = 0; i < k; i++)
+	{
+		printf("Lista sasiedztwa dla partycji %d:\n", i);
+		for(int j = 0; j < n; j++)
+		{
+			if(partition[j] == i)
+			{
+				for(int x = 0; x < n; x++)
+				{
+					if(matrix[j][x] == 1 && partition[x] == i)
+					{
+						printf("Krawedz %d - %d\n", j, x);
+					}
+				}
+			}
+		}
+	}
 }
