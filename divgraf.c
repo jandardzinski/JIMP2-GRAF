@@ -142,9 +142,6 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 			partition[current_node] = min_index;
 			partition_counter[min_index]++;
 
-			partition[current_node] = min_index;
-			partition_counter[min_index]++;
-			
 			for(int j = 0; j < n; j++)
 			{
 				if(matrix[current_node][j] && !visited[j])
