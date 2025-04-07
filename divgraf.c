@@ -94,8 +94,7 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 			int min_index = -1;
 			int min_count = max_size + 1;
 			for(int p = 0; p < k; p++)
-			/*
-
+			
 			partition[current_node] = current_partition;
 			partition_counter[current_partition]++;
 			
