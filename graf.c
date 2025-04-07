@@ -87,7 +87,7 @@ node_t * create_graph(FILE *in, FILE *out, int *ptr_number_of_nodes)
 int **create_matrix(FILE *in, FILE *out, int number_of_nodes)
 {
 	int **matrix = malloc(number_of_nodes * sizeof(int*));
-	
+	int edge_count = 0;
 	char c = '_';
 	int buf[10000];
 	int first, second;
@@ -112,6 +112,7 @@ int **create_matrix(FILE *in, FILE *out, int number_of_nodes)
 		matrix[start][end] = 1;
 		matrix[end][start] = 1;
 		fprintf(out, "Krawedz %d - %d\n", start, end);
+		edge_count++;
 	}
 	c = '_';
 	first = second;
@@ -124,6 +125,7 @@ int **create_matrix(FILE *in, FILE *out, int number_of_nodes)
 			matrix[start][end] = 1;
 			matrix[end][start] = 1;
 			fprintf(out, "Krawedz %d - %d\n", start, end);
+			edge_count++;
 		}
 		first = second;
 	}
@@ -134,8 +136,9 @@ int **create_matrix(FILE *in, FILE *out, int number_of_nodes)
     		matrix[start][end] = 1;
     		matrix[end][start] = 1;
     		fprintf(out, "Krawedz %d - %d\n", start, end);
+		edge_count++;
 	}
-
+	printf("Liczba krawedzi w pliku wynosi: %d\n", edge_count);
 	fclose(in);
 
 	return matrix;
