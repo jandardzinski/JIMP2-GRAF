@@ -95,6 +95,7 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 			int min_count = max_size + 1;
 			for(int p = 0; p < k; p++)
 			/*
+
 			partition[current_node] = current_partition;
 			partition_counter[current_partition]++;
 			
@@ -119,33 +120,6 @@ void bfs_partition(int **matrix, int n, int k, int* partition)
 					}
 				}
 			}
-			*/
-			int min_index = -1;
-			int min_count = max_size + 1;
-			for(int p = 0; p < k; p++)
-			{
-				if(partition_counter[p] < max_size && partition_counter[p] < min_count)
-				{
-					min_index = p;
-					min_count = partition_counter[p];
-				}
-			}
-
-			// Jeśli wszystkie pełne, to daj do najmniejszej
-			if(min_index == -1)
-			{
-				min_index = 0;
-				for(int p = 0; p < k; p++)
-				{
-					if(partition_counter[p] < partition_counter[min_index])
-					{
-						min_index = p;
-					}
-				}
-			}
-
-			partition[current_node] = min_index;
-			partition_counter[min_index]++;
 
 			partition[current_node] = min_index;
 			partition_counter[min_index]++;
@@ -312,5 +286,13 @@ void partition_list(int **matrix, int k, int n, int *partition)
 				}
 			}
 		}
+	}
+}
+
+void print_matrix(node_t * graph, int number_of_nodes, FILE *wynik)
+{
+	for(int i = 0; i < number_of_nodes; i++)
+	{
+
 	}
 }
