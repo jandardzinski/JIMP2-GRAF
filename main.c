@@ -25,11 +25,16 @@ int main(int argc, char ** argv)
 	int k;
         printf("Podaj na ile czesci chcesz podzielic graf:\n");
         scanf("%d", &k);
-	bfs_partition(matrix, number_of_nodes, k, partition);
+	assign_partitions(matrix, number_of_nodes, k, partition);
+    	remove_edges(matrix, number_of_nodes, partition, k);
+	//bfs_partition(matrix, number_of_nodes, k, partition);
 	print_matrix(graph, wynik, number_of_nodes, max_number);
 	partition_list(matrix, k, number_of_nodes, partition, wynik);
 	free(partition);
 	fclose(wynik);
+	//fclose(out);
+	//fclose(in);
+
 
 	return 0; 
 }

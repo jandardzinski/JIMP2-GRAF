@@ -8,13 +8,10 @@
 
 node_t * create_graph(FILE *in, FILE *out, int *ptr_number_of_nodes, int max_number)
 {
-	//FILE *out = fopen("wynik.txt", "w");
         if(in == NULL)
         {
                 printf("Blad podczas wczytywania pliku.\n");
         }
-        //int max_number;
-        //fscanf(in, "%d", &max_number);
         //printf("Maksymalna liczba wierzcholkow w wierszu wynosi: %d\n", max_number);
         int number_of_nodes = 0;
         char c = '_';
@@ -100,7 +97,6 @@ int **create_matrix(FILE *in, FILE *out, int number_of_nodes)
 	c = '_';
 	while(c != '\n' && fscanf(in, "%d%c", &buf[counter], &c) == 2)
 	{
-		//printf("BUFIKSIOR[%d] : %d\n", counter, buf[counter]);
 		counter++;	
 	}
 	
